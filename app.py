@@ -105,7 +105,7 @@ def register():
         newUser = user(username=username, password=password)
         db.session.add(newUser)
         db.session.commit()
-        return f"Done!!"
+        return redirect("/login")
 
 # Login Route (Unprotected)
 @app.route("/login",methods=['GET', 'POST'])
