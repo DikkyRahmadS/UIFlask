@@ -7,7 +7,9 @@ import jwt
 from datetime import datetime, timedelta
 
 app = Flask(__name__)
-# app.wsgi_app = middleware.SimpleMiddleWare(app.wsgi_app)
+
+
+# JUST IN CASE, Connect db without ORM.
 
 # app.config['MYSQL_HOST'] = 'localhost'
 # app.config['MYSQL_USER'] = 'root'
@@ -16,8 +18,10 @@ app = Flask(__name__)
  
 # mysql = MySQL(app)
 
+# JWT Secret Key
 app.config['SECRET_KEY'] = 'your secret key'
 
+# To connect db
 app.config['SQLALCHEMY_DATABASE_URI'] ="mysql://root:@localhost/flask_proto"
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
@@ -33,42 +37,7 @@ class user(db.Model):
         self.password = password
 
 
-# def token_required(f):
-#     @wraps(f)
-#     def decorated(*args, **kwargs):
-#         token = None
-#         if "Authorization" in request.headers:
-#             token = request.headers["Authorization"].split(" ")[1]
-#         if not token:
-#             return {
-#                 "message": "Authentication Token is missing!",
-#                 "data": None,
-#                 "error": "Unauthorized"
-#             }, 401
-#         try:
-#             data=jwt.decode(token, current_app.config["SECRET_KEY"], algorithms=["HS256"])
-#             current_user=models.User().get_by_id(data["user_id"])
-#             if current_user is None:
-#                 return {
-#                 "message": "Invalid Authentication token!",
-#                 "data": None,
-#                 "error": "Unauthorized"
-#             }, 401
-#             if not current_user["active"]:
-#                 abort(403)
-#         except Exception as e:
-#             return {
-#                 "message": "Something went wrong",
-#                 "data": None,
-#                 "error": str(e)
-#             }, 500
-
-#         return f(current_user, *args, **kwargs)
-
-#     return decorated
-
-
-
+# Validate token
 def token_required(f):
     @wraps(f)
     def decorated(*args, **kwargs):
@@ -83,11 +52,6 @@ def token_required(f):
             return redirect("/login")
   
         try:
-            # decoding the payload to fetch the stored details
-            # data = jwt.decode(token, app.config['SECRET_KEY'])
-            # current_user = User.query\
-            #     .filter_by(public_id = data['public_id'])\
-            #     .first()
             decoded_data = jwt.decode(jwt=token,
                               key=app.config['SECRET_KEY'],
                               algorithms=["HS256"])
@@ -104,7 +68,7 @@ def token_required(f):
     return decorated
 
 
-
+# User Route
 @app.route("/user",methods=['GET'])
 @token_required
 def userRoute():
@@ -121,7 +85,7 @@ def userRoute():
         # return decoded_data["userid"]
         return render_template('user.html',user=result)
 
-
+# Main Route
 @app.route("/" , methods=['GET'])
 @token_required
 def index():
@@ -131,6 +95,7 @@ def index():
     
 @app.route("/register", methods=['GET', 'POST'])
 
+# Register Route (Unprotected)
 def register():
     if request.method == "GET":
         return render_template('register.html')
@@ -142,6 +107,7 @@ def register():
         db.session.commit()
         return f"Done!!"
 
+# Login Route (Unprotected)
 @app.route("/login",methods=['GET', 'POST'])
 def login():
     if request.method == "GET":
@@ -172,7 +138,8 @@ def login():
         
 
         return redirect(url_for('login'))
-        
+
+# Logout Route, clear cookie (Unprotected)
 @app.route("/logout",methods=['POST'])
 def logout():
     if request.method == "POST":
