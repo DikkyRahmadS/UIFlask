@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link href="../static/css/main.css" rel="stylesheet" />
+        <script src="https://cdn.tailwindcss.com"></script>
+        <title>App</title>
+    </head>
+    <body>
+        <h1 class="text-2xl font-bold">Testing</h1>
+        {% for user in users %}
+        <div class="student">
+            <p><b>#{{ user.id }}</b></p>
+            <b>
+                <p class="name">{{ user.username }}</p>
+            </b>
+        </div>
+        {% endfor %}
+    </body>
+</html>
