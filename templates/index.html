@@ -8,14 +8,110 @@
         <title>App</title>
     </head>
     <body>
-        <h1 class="text-2xl font-bold">Testing</h1>
-        {% for user in users %}
-        <div class="student">
-            <p><b>#{{ user.id }}</b></p>
-            <b>
-                <p class="name">{{ user.username }}</p>
-            </b>
+        <!-- Main navigation container -->
+<nav
+  class="relative flex w-full flex-nowrap items-center justify-between bg-[#FBFBFB] py-2 text-neutral-500 shadow-lg hover:text-neutral-700 focus:text-neutral-700 dark:bg-neutral-600 lg:flex-wrap lg:justify-start lg:py-4"
+  data-te-navbar-ref>
+  <div class="flex w-full flex-wrap items-center justify-between px-3">
+    <div class="ml-2">
+      <a class="text-xl text-neutral-800 dark:text-neutral-200" href="#"
+        >Nama Aplikasi</a
+      >
+    </div>
+    <!-- Hamburger button for mobile view -->
+    <button
+      class="block border-0 bg-transparent px-2 text-neutral-500 hover:no-underline hover:shadow-none focus:no-underline focus:shadow-none focus:outline-none focus:ring-0 dark:text-neutral-200 lg:hidden"
+      type="button"
+      data-te-collapse-init
+      data-te-target="#navbarSupportedContent3"
+      aria-controls="navbarSupportedContent3"
+      aria-expanded="false"
+      aria-label="Toggle navigation">
+      <!-- Hamburger icon -->
+      <span class="[&>svg]:w-7">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 24 24"
+          fill="currentColor"
+          class="h-7 w-7">
+          <path
+            fill-rule="evenodd"
+            d="M3 6.75A.75.75 0 013.75 6h16.5a.75.75 0 010 1.5H3.75A.75.75 0 013 6.75zM3 12a.75.75 0 01.75-.75h16.5a.75.75 0 010 1.5H3.75A.75.75 0 013 12zm0 5.25a.75.75 0 01.75-.75h16.5a.75.75 0 010 1.5H3.75a.75.75 0 01-.75-.75z"
+            clip-rule="evenodd" />
+        </svg>
+      </span>
+    </button>
+
+    <!-- Collapsible navbar container -->
+    <div
+      class="!visible mt-2 hidden flex-grow basis-[100%] items-center lg:mt-0 lg:!flex lg:basis-auto"
+      id="navbarSupportedContent3"
+      data-te-collapse-item>
+      <!-- Left links -->
+      <div
+        class="list-style-none mr-auto flex flex-col pl-0 lg:mt-1 lg:flex-row"
+        data-te-navbar-nav-ref>
+        <!-- Home link -->  
+      </div>
+      {% for user in users %}
+      <span class="ml-2 text-neutral-500 dark:text-neutral-200"
+        ><Selamat class="name">Selamat Darang, {{ user.username }}</p> </span
+      >
+      {% endfor %}
+    </div>
+  </div>
+</nav>
+ <div class="content bg-gray-100 h-screen py-28 px-48">
+        <!-- Add two side-by-side text areas using Tailwind CSS grid -->
+        <div class="grid grid-cols-2 gap-4">
+            <div class="flex flex-col items-center">
+                <h2 class="text-lg font-semibold mb-2">Teks Asli</h2>
+                <div class="p-2 border bg-white border-gray-300 rounded-lg w-full h-96">
+                    <textarea id="textArea1" class="p-2 w-full h-full" placeholder="Masukkan teks Anda untuk meringkas"></textarea>
+                    <div id="fileInput1" class="hidden w-full h-full">
+                        <div class=" w-full h-full py-3">
+                        <label class="flex w-full cursor-pointer appearance-none items-center justify-center rounded-md border-2 border-dashed border-gray-200 p-6 transition-all hover:border-primary-300 ">
+                            <div class="space-y-1 text-center  h-72 py-20 ">
+                            <div class="mx-auto inline-flex h-10 w-10 items-center justify-center rounded-full bg-gray-100">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-6 w-6 text-gray-500">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 16.5V9.75m0 0l3 3m-3-3l-3 3M6.75 19.5a4.5 4.5 0 01-1.41-8.775 5.25 5.25 0 0110.233-2.33 3 3 0 013.758 3.848A3.752 3.752 0 0118 19.5H6.75z" />
+                                </svg>
+                            </div>
+                            <div class="text-gray-600"><a href="#" class="font-medium text-primary-500 hover:text-primary-700">KLIK DI SINI UNTUK MENGUNGGAH</div>
+                            <p class="text-sm text-gray-500">PDF, DOCX, TXT, atau format dokumen lainnya (max. 50MB)</p>
+                            </div>
+                            <input id="example5" type="file" class="sr-only" />
+                        </label>
+                        </div>
+                    </div>
+                    <button id="toggleInput1" class="mt-2 text-primary-500 hover:text-primary-700 cursor-pointer">Klik Untuk Cara Lainnya</button>
+                </div>
+            </div>
+            <div class="flex flex-col items-center">
+                <h2 class="text-lg font-semibold mb-2">Ringkasan Teks</h2>
+                <textarea class="p-2 border border-gray-300 rounded-lg w-full h-96" placeholder=""></textarea>
+            </div>
         </div>
-        {% endfor %}
-    </body>
+        <div class="flex justify-center mt-4">
+            <button class="px-20 py-2 bg-indigo-500  hover:bg-indigo-400 focus:bg-indigo-400 text-white rounded-full">Submit</button>
+        </div>
+    </div>
+
+    <script>
+        // JavaScript code to toggle between text area and file input
+        const textArea1 = document.getElementById("textArea1");
+        const fileInput1 = document.getElementById("fileInput1");
+        const toggleInput1 = document.getElementById("toggleInput1");
+
+        toggleInput1.addEventListener("click", () => {
+            if (textArea1.style.display === "none") {
+                textArea1.style.display = "block";
+                fileInput1.style.display = "none";
+            } else {
+                textArea1.style.display = "none";
+                fileInput1.style.display = "block";
+            }
+        });
+    </script>
+</body>
 </html>
