@@ -104,6 +104,21 @@ def index():
         
         result = user.query.filter_by(id=decoded_data["userid"]).first()
         return render_template('index.html', user = result)
+
+
+@app.route("/index" , methods=['GET'])
+@token_required
+def indexNew():
+    if request.method == "GET":
+        token = request.cookies.get('access_token')
+        # return token
+        decoded_data = jwt.decode(jwt=token,
+                              key=app.config['SECRET_KEY'],
+                              algorithms=["HS256"])
+
+        
+        result = user.query.filter_by(id=decoded_data["userid"]).first()
+        return render_template('index2.html', user = result)
     
 @app.route("/register", methods=['GET', 'POST'])
 

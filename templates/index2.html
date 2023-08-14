@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Home</title>
+      <script src="https://cdn.tailwindcss.com"></script>
+    <!-- <link rel="stylesheet" href="/src/globals.css" /> -->
+  </head>
+  <body class="box-border">
+    <main
+      class="min-h-screen p-6 bg-slate-100 flex flex-col justify-center items-center"
+    >
+      <h1 class="text-4xl font-bold tracking-wide mb-8">Judul</h1>
+      <div
+        class="flex flex-col w-5/6 justify-center items-center py-6 space-y-8 shadow-xl rounded-xl bg-white"
+      >
+        <div class="">
+          <form action="" class="flex items-center">
+            <input
+              type="file"
+              class="text-sm text-slate-500 file:mr-4 file:py-3 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-slate-300 cursor-pointer file:text-slate-800-700 hover:file:bg-slate-400"
+            />
+            <!-- <p class="mt-1 text-sm text-black opacity-50" id="file_input_help">
+              PDF(MAX. X MB).
+            </p> -->
+
+            <button
+              class="bg-blue-700 py-2 px-3 rounded-lg text-white hover:bg-blue-800 text-center"
+            >
+              Upload
+            </button>
+          </form>
+        </div>
+        <div class="">
+          <label for="message" class="block mb-2 text-lg font-medium text-black"
+            >Your results</label
+          >
+          <textarea
+            id="message"
+            cols="60"
+            rows="10"
+            class="block p-3 w-full text-base text-gray-900 bg-gray-50 rounded-lg border border-gray-500 focus:ring-blue-500 focus:border-blue-500"
+            placeholder=""
+          ></textarea>
+        </div>
+        <div class="">
+          <button
+            class="w-full bg-blue-700 py-2 px-3 rounded-lg text-white hover:bg-blue-800 text-center"
+          >
+            Summarize
+          </button>
+        </div>
+
+        <div class="">
+          <label for="message" class="block mb-2 text-lg font-medium text-black"
+            >Summarize Results</label
+          >
+          <textarea
+            id="message"
+            cols="60"
+            rows="10"
+            class="block p-3 w-full text-base text-gray-900 bg-gray-50 rounded-lg border border-gray-500 focus:ring-blue-500 focus:border-blue-500"
+            placeholder=""
+          ></textarea>
+        </div>
+      </div>
+    </main>
+  </body>
+</html>
