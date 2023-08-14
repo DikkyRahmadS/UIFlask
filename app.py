@@ -26,15 +26,20 @@ app.config['SQLALCHEMY_DATABASE_URI'] ="mysql://root:@localhost/flask_proto"
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
+#MYSQL DB Model
 class user(db.Model):
     id = db.Column(db.Integer, primary_key = True)
     username = db.Column(db.String(30))
     password = db.Column(db.String(20))
+    phone = db.Column(db.String(20))
+    realname = db.Column(db.String(30))
  
  
-    def __init__(self, username, password):
+    def __init__(self, username, password, phone, realname):
         self.username = username
         self.password = password
+        self.phone = phone
+        self.realname = realname
 
 
 # Validate token
@@ -42,12 +47,12 @@ def token_required(f):
     @wraps(f)
     def decorated(*args, **kwargs):
         token = None
-        # jwt is passed in the request header
+        # jwt is passed in the the cookie
 
 
         if 'access_token' in request.cookies:
             token = request.cookies.get('access_token')
-        # return 401 if token is not passed
+        # return back to login if no token
         if not token:
             return redirect("/login")
   
@@ -68,10 +73,27 @@ def token_required(f):
     return decorated
 
 
-# User Route
-@app.route("/user",methods=['GET'])
+# # User Route
+# @app.route("/user",methods=['GET'])
+# @token_required
+# def userRoute():
+#     if request.method == "GET":
+#         token = request.cookies.get('access_token')
+#         # return token
+#         decoded_data = jwt.decode(jwt=token,
+#                               key=app.config['SECRET_KEY'],
+#                               algorithms=["HS256"])
+
+        
+#         result = user.query.filter_by(id=decoded_data["userid"]).first()
+
+#         # return decoded_data["userid"]
+#         return render_template('user.html',user=result)
+
+# Main Route
+@app.route("/" , methods=['GET'])
 @token_required
-def userRoute():
+def index():
     if request.method == "GET":
         token = request.cookies.get('access_token')
         # return token
@@ -81,17 +103,7 @@ def userRoute():
 
         
         result = user.query.filter_by(id=decoded_data["userid"]).first()
-
-        # return decoded_data["userid"]
-        return render_template('user.html',user=result)
-
-# Main Route
-@app.route("/" , methods=['GET'])
-@token_required
-def index():
-    if request.method == "GET":
-        users = user.query.all()
-        return render_template('index.html', users = users)
+        return render_template('index.html', user = result)
     
 @app.route("/register", methods=['GET', 'POST'])
 
@@ -102,7 +114,9 @@ def register():
     if request.method == "POST":
         username = request.form['username']
         password = request.form['password']
-        newUser = user(username=username, password=password)
+        phone = request.form['phone']
+        realname = request.form['name']
+        newUser = user(username=username, password=password, phone=phone, realname=realname)
         db.session.add(newUser)
         db.session.commit()
         return redirect("/login")
@@ -125,7 +139,7 @@ def login():
                 'exp' : datetime.utcnow() + timedelta(minutes = 30)
                 }, app.config['SECRET_KEY'])
                 # return "logged in"
-                response = make_response(redirect("/user"))
+                response = make_response(redirect("/"))
                 response.set_cookie('access_token',value=token)
                 return response
                 # return make_response(jsonify({'token' : token}), 201)
@@ -150,7 +164,10 @@ def logout():
         # Response.delete_cookie(key="access_token" )
        
         # return render_template()
-
+@app.errorhandler(404)
+def page_not_found(e):
+    # note that we set the 404 status explicitly
+    return render_template('404.html'), 404
 
 if __name__ == "__main__":
     app.run()

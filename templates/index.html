@@ -53,11 +53,21 @@
         data-te-navbar-nav-ref>
         <!-- Home link -->  
       </div>
-      {% for user in users %}
+     
       <span class="ml-2 text-neutral-500 dark:text-neutral-200"
-        ><Selamat class="name">Selamat Darang, {{ user.username }}</p> </span
+        ><Selamat class="name">Selamat Datang,  {{ user.username }}</p> </span
       >
-      {% endfor %}
+      <form action="/logout" method="post">
+         <input
+                type="text"
+                name="userid"
+                id=""
+                style="display: none"
+                value="{{ user.id }}"
+            />
+            <button class="text-white  ml-5" type="submit">Logout</button>
+      </form>
+          
     </div>
   </div>
 </nav>
